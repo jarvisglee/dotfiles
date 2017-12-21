@@ -1,20 +1,63 @@
-# vi (hjkl) Navigation
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
+set nocompatible
 
-# vi Mode
-set-window-option -g mode-keys vi
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source ~/.vimrc
+endif
 
-# Pane and Window Indexing
-set -g base-index 1
-setw -g pane-base-index 1
+call plug#begin('~/.vim/plug')
 
-# Terminal Colors
-set -g default-terminal "screen-256color"
+" Automatically install missing plugins on startup
+if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+    autocmd VimEnter * PlugInstall | q
+endif
 
-# Default Directories
-bind '"' split-window -c "#{pane_current_path}"
-bind % split-window -h -c "#{pane_current_path}"
-bind c new-window -c "#{pane_current_path}"
+" Plugins
+Plug 'crusoexia/vim-monokai'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/syntastic'
+
+call plug#end()
+
+" Editor View Settings
+syntax enable
+silent! colorscheme monokai
+set number
+set term=screen-256color
+filetype plugin indent off
+filetype indent off
+set noshowmode
+set laststatus=2
+
+" Indentation Remappings
+noremap > >>
+noremap < <<
+vnoremap > >gv
+vnoremap < <gv
+inoremap <S-Tab> <C-d>
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+" Remap key bindings to take into account continuation
+noremap <expr> j v:count ? 'j' : 'gj'
+noremap <expr> k v:count ? 'k' : 'gk'
+
+" Tab Spacing
+:set autoindent
+:set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+
+" Mouse scrolling
+:set mouse=a
+
+" Syntastic Settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_loc_list_height = 5
