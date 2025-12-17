@@ -1,0 +1,16 @@
+font-family = Menlo
+shell-integration-features = ssh-env
+clipboard-paste-protection = false
+
+# Use Ctrl-a as a Ghostty "prefix" for pane navigation
+keybind = ctrl+a>h=goto_split:left
+keybind = ctrl+a>j=goto_split:down
+keybind = ctrl+a>k=goto_split:up
+keybind = ctrl+a>l=goto_split:right
+
+# Make splits with Ctrl-a s/v (like tmux)
+keybind = ctrl+a>v=new_split:right
+keybind = ctrl+a>s=new_split:down
+
+# Zoom current Ghostty split
+keybind = ctrl+a>z=toggle_split_zoom
