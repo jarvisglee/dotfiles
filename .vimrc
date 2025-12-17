@@ -22,7 +22,7 @@ endif
 " Plugins
 Plug 'crusoexia/vim-monokai'    " Monokai color scheme
 Plug 'itchyny/lightline.vim'     " Lightweight status line
-Plug 'scrooloose/syntastic'     " Syntax checking plugin
+Plug 'dense-analysis/ale'       " Asynchronous linting/fixing
 
 " End plugin declarations
 call plug#end()
@@ -62,17 +62,20 @@ noremap <expr> k v:count ? 'k' : 'gk'  " k moves up display lines when no count 
 " System clipboard for MacOS
 set clipboard=unnamed            " Use system clipboard for yank/paste operations
 
-" Syntastic Settings
-set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}  " Add syntastic status to statusline
+" ALE Settings
+set statusline+=%{exists('*ALEGetStatusLine')?ALEGetStatusLine():''}  " Add ALE status to statusline
 set statusline+=%#warningmsg#    " Set warning message highlighting
 set statusline+=%*               " Reset highlighting to normal
-let g:syntastic_python_checkers = ['flake8']           " Use flake8 for Python syntax checking
-let g:syntastic_always_populate_loc_list = 1           " Always populate location list with errors
-let g:syntastic_check_on_open = 0                      " Don't check syntax when opening files
-let g:syntastic_check_on_wq = 0                        " Don't check syntax when saving and quitting
-let g:syntastic_auto_loc_list = 0                      " Don't automatically open/close location list
-let g:syntastic_loc_list_height = 5                    " Set location list window height to 5 lines
-let g:syntastic_python_flake8_args='--ignore=E501|E226|W503'     " Ignore E501 (line too long) warnings
+let g:ale_linters = {'python': ['flake8']}                         " Use flake8 for Python linting
+let g:ale_python_flake8_options = '--ignore=E501,E226,W503'         " Ignore selected flake8 codes
+let g:ale_lint_on_enter = 0                                        " Don't lint on open
+let g:ale_lint_on_text_changed = 'never'                           " Don't lint while typing
+let g:ale_lint_on_insert_leave = 0                                 " Don't lint when leaving insert mode
+let g:ale_lint_on_save = 1                                         " Lint on save
+let g:ale_set_loclist = 1                                          " Populate location list
+let g:ale_set_quickfix = 0                                         " Avoid quickfix list
+let g:ale_open_list = 0                                            " Don't auto-open list window
+let g:ale_list_window_size = 5                                     " Location list window height
 
 augroup vimrc_todo
     au!
