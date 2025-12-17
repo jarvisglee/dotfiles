@@ -41,7 +41,10 @@ noremap > >>                     " Make > indent current line in normal mode
 noremap < <<                     " Make < unindent current line in normal mode
 vnoremap > >gv                   " Indent selection and keep it selected
 vnoremap < <gv                   " Unindent selection and keep it selected
-inoremap <S-Tab> <C-d>           " Shift+Tab unindents in insert mode
+
+inoremap <S-Tab>    <C-d>
+inoremap <expr> <S-Tab>    pumvisible() ? "\<C-p>" : "\<C-d>"
+
 vmap <Tab> >gv                   " Tab indents selection and keeps it selected
 vmap <S-Tab> <gv                 " Shift+Tab unindents selection and keeps it selected
 
@@ -69,8 +72,7 @@ let g:syntastic_check_on_open = 0                      " Don't check syntax when
 let g:syntastic_check_on_wq = 0                        " Don't check syntax when saving and quitting
 let g:syntastic_auto_loc_list = 0                      " Don't automatically open/close location list
 let g:syntastic_loc_list_height = 5                    " Set location list window height to 5 lines
-let g:syntastic_quiet_messages = { 'regex': 'F841' }   " Suppress F841 warnings (unused variable)
-let g:syntastic_python_flake8_args='--ignore=E501'     " Ignore E501 (line too long) warnings
+let g:syntastic_python_flake8_args='--ignore=E501|E226|W503'     " Ignore E501 (line too long) warnings
 
 augroup vimrc_todo
     au!
